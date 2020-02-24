@@ -40,19 +40,35 @@ for(i; i<5; i++){ //vilken rad
      }
 }
 //kolla diagonala åt höger ner
-int i = 0;
-int winner = 0;
-//kolla horisontella
+i = 0;
+winner = 0;
 for(i; i<5; i++){ //vilken rad
     int j= 0;
      for(j; j<5; j++){ //vart i rad
-        if (b[i][j] == b[i][j+1]){ //om två siffror lika
+        if (b[i][j] == b[i+1][j+1]){ //om två siffror lika
                 winner = winner + b[i][j]; //sätt vinnare
                  if((winner == 4) || (winner == 80)) //om vinnare klar, bra
                     return winner;
 
-                if(b[i][j+2]!= b[i][j+1]) // ta med sista vinnare
-                    winner = winner + b[i][j+1];
+                if(b[i+2][j+2]!= b[i+1][j+1]) // ta med sista vinnare
+                    winner = winner + b[i+1][j+1];
+        }
+     }
+}
+
+//kolla diagonala åt vänster ner
+i = 0;
+winner = 0;
+for(i; i<5; i++){ //vilken rad
+    int j= 4;
+     for(j; j>=0; j--){ //vart i rad
+        if (b[i][j] == b[i+1][j-1]){ //om två siffror lika
+                winner = winner + b[i][j]; //sätt vinnare
+                 if((winner == 4) || (winner == 80)) //om vinnare klar, bra
+                    return winner;
+
+                if(b[i+2][j-2]!= b[i+1][j-1]) // ta med sista vinnare
+                    winner = winner + b[i+1][j-1];
         }
      }
 }
@@ -95,17 +111,24 @@ int main(){
 int playboard[5][5];
 emptyBoard(playboard);
 
-playboard [0][3] = 20;
+playboard [0][4] = 20;
 
-playboard [1][3] = 20;
+playboard [1][4] = 20;
 
 playboard [2][3] = 20;
 
-playboard [3][3] = 20;
+playboard [3][2] = 20;
 
-playboard [4][3] = 20;
+playboard [4][1] = 20;
 
 printBoard(playboard);
 printf("%d", checkBoard(playboard));
+
+if (checkBoard(playboard) == 4){
+    printf("The winner is Player 1!");
+}
+else if (checkBoard(playboard) == 80){
+     printf("The winner is Player 2!");
+}
 
 }
