@@ -36,10 +36,10 @@ void user_isr( void )
         }
     }
 
-    if (INTCON & (1 << 2)) {
+   /* if (INTCON & (1 << 2)) {
         PORTE++;
         INT & 0xff7f;
-    }
+    }*/
 }
 /* Lab-specific initialization goes here */
 void labinit( void )

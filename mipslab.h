@@ -14,6 +14,7 @@ void display_string(int line, char *s);
 void display_update(void);
 uint8_t spi_send_recv(uint8_t data);
 
+void display_image2(int x, const uint8_t *data);
 /* Declare lab-related functions from mipslabfunc.c */
 char * itoaconv( int num );
 void labwork(void);
@@ -41,6 +42,8 @@ extern const uint8_t const font[128*8];
 extern const uint8_t const icon[128];
 /* Declare text buffer for display output */
 extern char textbuffer[4][16];
+
+extern const uint8_t const black[128*4];
 
 /* Declare functions written by students.
    Note: Since we declare these functions here,

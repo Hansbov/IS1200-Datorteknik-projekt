@@ -61,7 +61,9 @@ int main(void) {
 	display_string(3, "Welcome!");
 	display_update();*/
 
-	display_image(50, icon);
+	//display_image(50, icon);
+	display_image2(0, black);
+
 
 	//labinit(); /* Do any lab-specific initialization */
 
