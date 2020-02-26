@@ -141,7 +141,7 @@ void display_string(int line, char *s) {
 			textbuffer[line][i] = ' ';
 }
 
-void display_image(int x, const uint8_t *data) {
+void display_image(int x, uint8_t *data) {
 	int i, j;
 
 	for(i = 0; i < 4; i++) {
@@ -160,7 +160,7 @@ void display_image(int x, const uint8_t *data) {
 	}
 }
 
-void display_image2(int x, const uint8_t *data) {
+void display_image2(int x, uint8_t *data) {
 	int i, j;
 
 	for(i = 0; i < 4; i++) {
