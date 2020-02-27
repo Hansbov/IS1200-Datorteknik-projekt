@@ -44,6 +44,8 @@ extern uint8_t icon[128];
 extern char textbuffer[4][16];
 
 extern uint8_t black[128*4];
+extern uint8_t trophy[128];
+uint8_t icon_original[128];
 
 extern int hor;
 extern int vert;
@@ -51,6 +53,8 @@ extern int hor_prev;
 extern int vert_prev;
 extern int playboard[5][5];
 extern int player;
+extern int menu;
+
 
 
 /* Declare functions written by students.
@@ -61,6 +65,11 @@ extern int player;
 void delay(int);
 void curser(int, int);
 void ichooseyou (void);
+int checkBoard (void);
+void emptyBoard(int b[5][5]);
+int diagonalL(int i, int b);
+int diagonalR(int i, int b);
+
 void time2string( char *, int );
 /* Written as part of i/o lab: getbtns, getsw, enable_interrupt */
 int getbtns(void);

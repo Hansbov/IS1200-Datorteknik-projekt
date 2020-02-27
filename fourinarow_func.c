@@ -201,7 +201,6 @@ case 4:
 }
 
 
-
 void ichooseyou (void){
 if (playboard[vert][hor] == 0){
 
@@ -278,7 +277,9 @@ if (playboard[vert][hor] == 0){
 
         playboard[vert][hor] = 1;
 
-        display_string(0, "Player 2");
+        display_string(0, "Player 2:");
+        display_string(1, "you are o");
+        display_update();
 }
 
 
@@ -344,9 +345,9 @@ case 4:
  {
         int i = 2;
         for(i; i<5; i++){
-                if(i == 1 || i == 5)
+                if(i == 2 || i == 4)
                     icon[hor*6 + (vert-1)*32 + i] = icon[hor*6 + (vert-1)*32 + i] + 28;
-                if(i == 2 || i == 3 || i == 4)
+                if(i == 3)
                     icon[hor*6 + (vert-1)*32 + i] = icon[hor*6 + (vert-1)*32 + i] + 20;
 
         }
@@ -357,9 +358,12 @@ case 4:
 
         playboard[vert][hor] = 20;
 
-        display_string(0, "Player 1");
+        display_string(0, "Player 1:");
+        display_string(1, "you are x");
+        display_update();
 
 }
+
 switch (player)
 {
     case 1:
@@ -371,3 +375,231 @@ switch (player)
         break;
 }
 }}
+
+
+int checkBoard (void){
+int i = 0;
+int winner = 0;
+//kolla horisontella
+for(i; i<5; i++){ //vilken rad
+    int j= 0;
+     for(j; j<5; j++){ //vart i rad
+        if (playboard[i][j] == playboard[i][j+1]){ //om två siffror lika
+                winner = winner + playboard[i][j]; //sätt vinnare
+
+                if(playboard[i][j+2]!= playboard[i][j+1]) // ta med sista vinnare
+                    winner = winner + playboard[i][j+1];
+
+                if((winner == 4) || (winner == 80)) //om vinnare klar, bra
+                    return winner;
+
+        }
+     }
+}
+winner = 0;
+//kolla vertikala
+i = 0;
+for(i; i<5; i++){ //vilken rad
+    int j= 0;
+     for(j; j<5; j++){ //vart i rad
+        if (playboard[j][i] == playboard[j+1][i]){ //om två siffror lika
+                winner = winner + playboard[j][i]; //sätt vinnare
+
+                if(playboard[j+2][i]!= playboard[j+1][i]) // ta med sista vinnare
+                    winner = winner + playboard[j+1][i];
+
+                if((winner == 4) || (winner == 80)) //om vinnare klar, bra
+                    return winner;
+        }
+     }
+}
+//kolla diagonala åt höger ner
+i = 0;
+winner = diagonalR(0,0);
+if((winner == 4) || (winner == 80)) //om vinnare klar, bra
+    return winner;
+
+winner = diagonalR(0,1);
+if((winner == 4) || (winner == 80)) //om vinnare klar, bra
+    return winner;
+
+winner = diagonalR(1,0);
+if((winner == 4) || (winner == 80)) //om vinnare klar, bra
+    return winner;
+
+//kolla diagonala åt vänster ner
+
+winner = diagonalL(0,3);
+if((winner == 4) || (winner == 80)) //om vinnare klar, bra
+    return winner;
+
+winner = diagonalL(0,4);
+if((winner == 4) || (winner == 80)) //om vinnare klar, bra
+    return winner;
+
+winner = diagonalL(1,4);
+if((winner == 4) || (winner == 80)) //om vinnare klar, bra
+    return winner;
+
+return winner;
+}
+
+
+int diagonalR(int i, int b){
+int winner = 0;
+for(i; i<5; i++){ //vilken rad
+        int j= b;
+     for(j; j<5; j++){ //vart i rad
+        if (playboard[i][j] == playboard[i+1][j+1]){ //om två siffror lika
+                winner = winner + playboard[i][j]; //sätt vinnare
+
+                if(playboard[i+2][j+2]!= playboard[i+1][j+1]) // ta med sista vinnare
+                    winner = winner + playboard[i+1][j+1];
+
+                if((winner == 4) || (winner == 80)) //om vinnare klar, bra
+                    return winner;
+        }
+     }
+}
+return winner;
+}
+
+int diagonalL(int i, int b){
+int winner = 0;
+int j = b;
+for(i; i<5; i++){ //vilken rad
+     for(j; j>=0; j--){ //vart i rad
+        if (playboard[i][j] == playboard[i+1][j-1]){ //om två siffror lika
+                winner = winner + playboard[i][j]; //sätt vinnare
+
+
+                if(playboard[i+2][j-2]!= playboard[i+1][j-1]) // ta med sista vinnare
+                    winner = winner + playboard[i+1][j-1];
+
+                if((winner == 4) || (winner == 80)) //om vinnare klar, bra
+                    return winner;
+        }
+
+
+     }
+    b = b-1;
+    j= b;
+}
+return winner;
+}
+
+
+void emptyBoard(int b[5][5]){
+int i = 0;
+for(i; i<5; i++){
+    int j= 0;
+     for(j; j<5; j++){
+        b [i][j] = 0;
+     }
+
+}
+}
+
+void game (void){
+display_image(96, icon);
+delay(1000);
+while(1)
+    {
+if(getbtns() == 1)
+    ichooseyou();
+
+if (getbtns() != 0)
+    curser(getsw(),getbtns());
+
+display_image(96, icon);
+delay(500);
+if (checkBoard()== 4){
+    display_image2(0,black);
+    display_string(0,"The winner:");
+    display_string(1,"player 1!");
+    display_update();
+    display_image(96, trophy);
+    break;
+}
+
+if (checkBoard()== 80){
+    display_image2(0,black);
+    display_string(0,"The winner:");
+    display_string(1,"player 2!");
+    display_update();
+    display_image(96, trophy);
+    break;
+}
+
+if (getsw() == 1)
+    break;
+}
+
+}
+
+void newGame(void){
+
+emptyBoard(playboard);
+int i = 0;
+for(i; i<128; i++){
+    icon[i] = icon_original[i];
+}
+vert = 0;
+hor = 0;
+
+display_image2(0, black);
+display_string(0, "Player 1:");
+display_string(1, "you are x");
+display_update();
+
+game();
+delay(2000);
+
+//lägg till hoppa tillbaka till meny
+}
+
+
+void resumeGame (void){
+
+if (player == 1){
+display_image2(0, black);
+display_string(0, "Player 1:");
+display_string(1, "you are x");
+display_update();
+
+game();
+delay(2000);
+}
+else if (player == 2){
+display_image2(0, black);
+display_string(0, "Player 2:");
+display_string(1, "you are o");
+display_update();
+
+game();
+delay(2000);
+}
+
+
+}
+
+void tutorial (void){
+display_image2(0, black);
+display_string(0, "btn3: right/down");
+display_string(1, "btn4: left/up");
+display_string(2, "btn2: select");
+display_string(3, "sw4:  direction");
+display_update();
+
+while(1){
+
+if (getsw() == 1)
+    break;
+}
+display_string(0, "");
+display_string(1, "");
+display_string(2, "");
+display_string(3, "");
+display_update();
+}
+
