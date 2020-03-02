@@ -54,7 +54,7 @@ extern int vert_prev;
 extern int playboard[5][5];
 extern int player;
 extern int menu;
-
+extern int howmany;
 
 
 /* Declare functions written by students.

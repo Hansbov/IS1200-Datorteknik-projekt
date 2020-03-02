@@ -11,6 +11,7 @@ int vert_prev = 0;
 int playboard[5][5];
 int player = 1;
 int menu = 0;
+int howmany = 0;
 
 
 

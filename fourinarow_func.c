@@ -6,20 +6,8 @@ void curser (int sw, int bt){
 hor_prev = hor;
 vert_prev = vert;
 
-if ( sw != 8 )
-{
-    if (bt == 2)
-    {
-       hor_prev = hor;
-        hor++;
-    }
-    else if (bt== 4)
-    {
-       hor_prev = hor;
-        hor--;
-    }
-}
-else if(sw == 8)
+
+if(sw >= 8)
 {
     if (bt == 2)
         {
@@ -31,6 +19,19 @@ else if(sw == 8)
         vert_prev = vert;
         vert--;
         }
+}
+else
+{
+    if (bt == 2)
+    {
+       hor_prev = hor;
+        hor++;
+    }
+    else if (bt== 4)
+    {
+       hor_prev = hor;
+        hor--;
+    }
 }
 
 if (vert>4)
@@ -395,8 +396,9 @@ for(i; i<5; i++){ //vilken rad
 
         }
      }
+     winner = 0;
 }
-winner = 0;
+winner =0;
 //kolla vertikala
 i = 0;
 for(i; i<5; i++){ //vilken rad
@@ -412,44 +414,117 @@ for(i; i<5; i++){ //vilken rad
                     return winner;
         }
      }
+     winner = 0;
 }
+
+/*
 //kolla diagonala åt höger ner
 i = 0;
 winner = diagonalR(0,0);
 if((winner == 4) || (winner == 80)) //om vinnare klar, bra
     return winner;
+winner= 0;
 
 winner = diagonalR(0,1);
 if((winner == 4) || (winner == 80)) //om vinnare klar, bra
     return winner;
+winner=0;
 
 winner = diagonalR(1,0);
 if((winner == 4) || (winner == 80)) //om vinnare klar, bra
     return winner;
-
+winner= 0;
 //kolla diagonala åt vänster ner
 
 winner = diagonalL(0,3);
 if((winner == 4) || (winner == 80)) //om vinnare klar, bra
     return winner;
+winner=0;
 
 winner = diagonalL(0,4);
 if((winner == 4) || (winner == 80)) //om vinnare klar, bra
     return winner;
+winner=0;
 
 winner = diagonalL(1,4);
 if((winner == 4) || (winner == 80)) //om vinnare klar, bra
     return winner;
+winner =0;*/
 
+winner = 0;
+
+if (playboard[0][0] == playboard[1][1] &&
+    playboard[1][1] == playboard[2][2] &&
+    playboard[2][2] == playboard[3][3] )
+{
+    winner = playboard[0][0]*4;
+    return winner;
+}
+
+if (playboard[1][1] == playboard[2][2] &&
+    playboard[2][2] == playboard[3][3] &&
+    playboard[3][3] == playboard[4][4] )
+    {
+    winner = playboard[1][1]*4;
+    return winner;
+}
+
+if (playboard[0][1] == playboard[1][2] &&
+    playboard[1][2] == playboard[2][3] &&
+    playboard[2][3] == playboard[3][4] )
+    {
+    winner = playboard[0][1]*4;
+    return winner;
+}
+
+if (playboard[1][0] == playboard[2][1] &&
+    playboard[2][1] == playboard[3][2] &&
+    playboard[3][2] == playboard[4][3] )
+    {
+    winner = playboard[1][0]*4;
+    return winner;
+}
+
+if (playboard[0][4] == playboard[1][3] &&
+    playboard[1][3] == playboard[2][2] &&
+    playboard[2][2] == playboard[3][1] )
+    {
+    winner = playboard[0][4]*4;
+    return winner;
+}
+
+if (playboard[1][3] == playboard[2][2] &&
+    playboard[2][2] == playboard[3][1] &&
+    playboard[3][1] == playboard[4][0] )
+    {
+    winner = playboard[1][3]*4;
+    return winner;
+}
+
+if (playboard[0][3] == playboard[1][2] &&
+    playboard[1][2] == playboard[2][1] &&
+    playboard[2][1] == playboard[3][0] )
+    {
+    winner = playboard[0][3]*4;
+    return winner;
+}
+
+if (playboard[1][4] == playboard[2][3] &&
+    playboard[2][3] == playboard[3][2] &&
+    playboard[3][2] == playboard[4][1] )
+    {
+    winner = playboard[1][4]*4;
+    return winner;
+}
 return winner;
 }
 
 
-int diagonalR(int i, int b){
+int diagonalR(int i, int j){
 int winner = 0;
 for(i; i<5; i++){ //vilken rad
-        int j= b;
-     for(j; j<5; j++){ //vart i rad
+
+      //vart i rad
         if (playboard[i][j] == playboard[i+1][j+1]){ //om två siffror lika
                 winner = winner + playboard[i][j]; //sätt vinnare
 
@@ -459,16 +534,18 @@ for(i; i<5; i++){ //vilken rad
                 if((winner == 4) || (winner == 80)) //om vinnare klar, bra
                     return winner;
         }
-     }
+     j++;
+     if (j > 4)
+        break;
 }
 return winner;
 }
 
-int diagonalL(int i, int b){
+int diagonalL(int i, int j){
 int winner = 0;
-int j = b;
+
 for(i; i<5; i++){ //vilken rad
-     for(j; j>=0; j--){ //vart i rad
+     //vart i rad
         if (playboard[i][j] == playboard[i+1][j-1]){ //om två siffror lika
                 winner = winner + playboard[i][j]; //sätt vinnare
 
@@ -480,10 +557,9 @@ for(i; i<5; i++){ //vilken rad
                     return winner;
         }
 
-
-     }
-    b = b-1;
-    j= b;
+    j--;
+    if (j < 0)
+        break;
 }
 return winner;
 }
@@ -491,6 +567,7 @@ return winner;
 
 void emptyBoard(int b[5][5]){
 int i = 0;
+howmany = 0;
 for(i; i<5; i++){
     int j= 0;
      for(j; j<5; j++){
@@ -506,7 +583,11 @@ delay(1000);
 while(1)
     {
 if(getbtns() == 1)
+{
     ichooseyou();
+    howmany++;
+}
+
 
 if (getbtns() != 0)
     curser(getsw(),getbtns());
@@ -531,8 +612,39 @@ if (checkBoard()== 80){
     break;
 }
 
-if (getsw() == 1)
+if (get4btns() == 1)
     break;
+
+if (howmany == 25){
+    display_string(0,"it's a draw!");
+    display_string(1, "");
+    display_update();
+    delay(500);
+    break;
+
+}
+
+/* //oavgjort som inte fungerar
+int i = 0;
+int j = 0;
+int bla = 0;
+for(i; i<5; i++){
+    for(j; j<5; j++){
+        if(playboard[j][i] == 0){
+        bla++;
+        }
+    }
+}
+
+if (bla == 0 ){
+    display_string(0,"it's a draw!");
+    display_string(1, "");
+    display_update();
+    delay(500);
+    break;
+}
+*/
+
 }
 
 }
@@ -552,6 +664,7 @@ display_string(0, "Player 1:");
 display_string(1, "you are x");
 display_update();
 
+player = 1;
 game();
 delay(2000);
 
@@ -593,7 +706,7 @@ display_update();
 
 while(1){
 
-if (getsw() == 1)
+if (get4btns() == 1)
     break;
 }
 display_string(0, "");

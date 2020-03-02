@@ -47,6 +47,7 @@ void labinit( void )
   volatile int * trise = (volatile int *) 0xbf886100;
   *trise = *trise & 0xff00;
   TRISD &= 0xffe0;
+  TRISF &= 0xfffe;
   TMR2 = 0;
   T2CON = 0x70; //256bit period
   PR2 = (80000000/256/10); //perioden

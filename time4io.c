@@ -11,3 +11,6 @@ int getbtns(void) {
         return ((PORTD >> 5) & 0x7);
 
 }
+int get4btns(void) {
+        return ((PORTF >> 1) & 0x1);
+}
