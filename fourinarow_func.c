@@ -698,8 +698,8 @@ delay(2000);
 
 void tutorial (void){
 display_image2(0, black);
-display_string(0, "btn3: right/down");
-display_string(1, "btn4: left/up");
+display_string(1, "btn3: right/down");
+display_string(0, "btn4: left/up");
 display_string(2, "btn2: select");
 display_string(3, "sw4:  direction");
 display_update();
